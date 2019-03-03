@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "outDir": "dist",
+    "target": "esnext",
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "sourceMap": false,
+    "noImplicitAny": false,
+    "removeComments": true
+  },
+  "include": [
+      "src/**/*",
+      "src/frontend/**/*",
+      "src/backend/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    ".env"
+  ],
+}
