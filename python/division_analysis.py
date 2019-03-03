@@ -6,7 +6,7 @@ import numpy as np
 app = Flask(__name__)
 
 statemap = {
-'AK':'01',
+'AL':'01',
 'NJ':'28',
 'AZ':'02',
 'NM':'29',
@@ -31,7 +31,7 @@ statemap = {
 'IN':'12',
 'SD':'39',
 'IA':'13',
-'TN':'40',
+'TN':'40', 
 'KS':'14',
 'TX':'41',
 'KY':'15',
@@ -50,8 +50,8 @@ statemap = {
 'WY':'48',
 'MS':'22',
 'AK':'50',
-'MO':'23',
-'MT':'24',
+'MS':'23',
+'MO':'24',
 'NE':'25',
 'NV':'26',
 'NH':'27',
@@ -89,14 +89,23 @@ def get_division_data(state, division):
 
 def predictions(data):
 	avgtmp = data[0]
+	maxtmp = data[1]
+	mintmp = data[2]
+
+	predictavg = []
+
 
 	for month in avgtmp:
-		print(len(month))
-		print(np.polyfit([x for x in range(124)], list(map(float, month)), 2))
+		c = np.polyfit([x for x in range(124)], list(map(float, month)), 2)
+		predictavg.append([c[0]*x**2 + c[1]*x + c[2] for x in range(123, 173)])
+
+	return predictavg
+
+predictions(get_division_data('30', '05'))
 
 
 @app.route('/')
 def return_data():
 	data = get_division_data(statemap[request.args.get('state')], request.args.get('division'))
-	return jsonify(maxtmp= data[0], mintmp= data[1], avgtmp= data[2])
+	return jsonify(maxtmp= data[0], mintmp= data[1], avgtmp= data[2], prediction= predictions(data))
 
