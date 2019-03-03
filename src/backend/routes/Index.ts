@@ -1,48 +1,35 @@
 import { Router } from 'express';
 import fetch from 'node-fetch';
 const router = Router();
-router.get('/', (req, res, next) => {
-  if(!req.query.data) return res.render('index', {
-     url: 'https://www.climate.gov/sites/default/files/styles/featured-image/public/NCA4EnergyExpenditureProjections_620.png?itok=hvN4IgFJ',
-  });
+import * as qs from 'querystring';
+import { handle, DataInput } from '../DataHandler';
+router.get('/', (req, res) => {
   res.render('index', {
     data: JSON.stringify({
       labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
       datasets: [{
           label: '# of Votes',
           data: [12, 19, 3, 5, 2, 3],
-          backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              'rgba(255, 159, 64, 0.2)'
-          ],
-          borderColor: [
-              'rgba(255,99,132,1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(153, 102, 255, 1)',
-              'rgba(255, 159, 64, 1)'
-          ],
           borderWidth: 1
       }]
     })
   });
 });
-router.post('/search', async (req, res, next) => {
+router.post('/search', async (req, res) => {
+  var [state, division]: string[] = req.body.search.split(':');
+  if(!state || !division) return res.redirect('/');
+  if(state.length > 2 || state.length < 2 || division.length > 2 || division.length < 2 || Number.isInteger(Number(division)))
+    return res.redirect('/');
+  state = state.toUpperCase();
+  if(!/^[A-Z]{2}/gi.test(state)) return res.redirect('/');
   try {
-    var resp = await fetch(`http://68.183.153.30:3000?${req.query}`, <any> { 
-      method: 'GET',
-      body: { query: req.body.search } 
+    var resp: DataInput = await fetch(`http://localhost:3001?state=${state}&division=${division}`, { 
+      method: 'GET' 
     }).then(r => r.json());
-  } catch(e) {
-    console.log(e);
-  }
-  res.render('search', {
-    url: resp 
+  } catch(e) { console.log(e); };
+  if(!resp) return res.render('index');
+  res.render('index', {
+    data: JSON.stringify(handle(resp)) 
   });
 });
 

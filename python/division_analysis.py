@@ -1,5 +1,4 @@
 import csv
-import matplotlib as plt
 from flask import Flask, jsonify, request
 import functools
 
