@@ -1,6 +1,6 @@
 export type DataInput = [[],[],[],[],[],[],[],[],[],[],[],[]];
 export type DataType = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  labels: string[];
   options: {
     pan: {
       enabled: boolean,
@@ -20,10 +20,10 @@ export type DataType = {
       borderWidth: number
   }[];
 };
-export function handle(data: DataInput): DataType {
+export function handle(data: DataInput, present: boolean): DataType {
   const [i1, i2, i3, i4, i5, i6, i7, i8, i9, i10, i11, i12] = data;
   return {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June','July','August','September','October','November','December'],
+    labels: present ? ['1895', '1905', '1915', '1925', '1935', '1945', '1955', '1965', '1975', '1985', '1995', '2005'] : ['1990', '1995', '2000', '2005', '2010', '2015','2020','2025','2030','2035','2040','2045','2050'],
     options: {
       pan: {
         enabled: true,

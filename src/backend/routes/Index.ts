@@ -1,11 +1,11 @@
 import { Router } from 'express';
 import fetch from 'node-fetch';
 const router = Router();
-import { handle, DataInput, DataType } from '../DataHandler';
+import { handle } from '../DataHandler';
 import file1 = require('../examples/data1.json');
 router.get('/', (req, res) => {
   res.render('index', {
-    data: JSON.stringify(handle(<[[],[],[],[],[],[],[],[],[],[],[],[]]>file1))
+    data: JSON.stringify(handle(<[[],[],[],[],[],[],[],[],[],[],[],[]]>file1, true))
   });
 });
 router.post('/search', async (req, res) => {
@@ -21,10 +21,11 @@ router.post('/search', async (req, res) => {
     })
     .then(r => r.json());
   } catch(e) { console.log(e); };
-  if(!resp) return res.render('index');
+  if(!resp) return res.redirect('/');
+  console.log(resp.prediction.length)
   res.render('index', {
-    data: JSON.stringify(handle(resp.avgtmp)),
-    prediction: JSON.stringify(handle(resp.prediction)) 
+    data: JSON.stringify(handle(resp.avgtmp, true)),
+    prediction: JSON.stringify(handle(resp.prediction, false)) 
   });
 });
 

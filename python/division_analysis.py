@@ -97,7 +97,7 @@ def predictions(data):
 
 	for month in avgtmp:
 		c = np.polyfit([x for x in range(124)], list(map(float, month)), 2)
-		predictavg.append([c[0]*x**2 + c[1]*x + c[2] for x in range(123, 173)])
+		predictavg.append([c[0]*x**2 + c[1]*x + c[2] for x in range(124, 173)])
 
 	return predictavg
 
