@@ -80,7 +80,7 @@ export function handle(data: DataInput): DataType {
     },
     {
       label: 'December',
-      data: i10,
+      data: i12,
       borderColor: 'rgba(255, 159, 64, 0.2)',
       borderWidth: 1
     },
