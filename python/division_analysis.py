@@ -6,11 +6,11 @@ import numpy as np
 app = Flask(__name__)
 
 statemap = {
-'AL':'01',
+'AK':'01',
 'NJ':'28',
 'AZ':'02',
 'NM':'29',
-'AK':'03',
+'AR':'03',
 'NY':'30',
 'CA':'04',
 'NC':'31',
@@ -49,9 +49,9 @@ statemap = {
 'MN':'21',
 'WY':'48',
 'MS':'22',
-'AL':'50',
-'MS':'23',
-'MO':'24',
+'AK':'50',
+'MO':'23',
+'MT':'24',
 'NE':'25',
 'NV':'26',
 'NH':'27',
@@ -89,14 +89,10 @@ def get_division_data(state, division):
 
 def predictions(data):
 	avgtmp = data[0]
-	maxtmp = data[1]
-	mintmp = data[2]
 
 	for month in avgtmp:
 		print(len(month))
 		print(np.polyfit([x for x in range(124)], list(map(float, month)), 2))
-
-predictions(get_division_data('30', '05'))
 
 
 @app.route('/')
