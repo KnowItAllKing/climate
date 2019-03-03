@@ -1,8 +1,61 @@
 import csv
 from flask import Flask, jsonify, request
 import functools
+import numpy as np
 
 app = Flask(__name__)
+
+statemap = {
+'AL':'01',
+'NJ':'28',
+'AZ':'02',
+'NM':'29',
+'AK':'03',
+'NY':'30',
+'CA':'04',
+'NC':'31',
+'CO':'05',
+'ND':'32',
+'CT':'06',
+'OH':'33',
+'DE':'07',
+'OK':'34',
+'FL':'08',
+'OR':'35',
+'GA':'09',
+'PA':'36',
+'ID':'10',
+'RI':'37',
+'IL':'11',
+'SC':'38',
+'IN':'12',
+'SD':'39',
+'IA':'13',
+'TN':'40',
+'KS':'14',
+'TX':'41',
+'KY':'15',
+'UT':'42',
+'LA':'16',
+'VT':'43',
+'ME':'17',
+'VA':'44',
+'MD':'18',
+'WA':'45',
+'MA':'19',
+'WV':'46',
+'MI':'20',
+'WI':'47',
+'MN':'21',
+'WY':'48',
+'MS':'22',
+'AL':'50',
+'MS':'23',
+'MO':'24',
+'NE':'25',
+'NV':'26',
+'NH':'27',
+}
 
 @functools.lru_cache(maxsize=None)
 def get_division_data(state, division):
@@ -34,8 +87,20 @@ def get_division_data(state, division):
 
 	return avgtmpmonth, maxtmpmonth, mintmpmonth
 
+def predictions(data):
+	avgtmp = data[0]
+	maxtmp = data[1]
+	mintmp = data[2]
+
+	for month in avgtmp:
+		print(len(month))
+		print(np.polyfit([x for x in range(124)], list(map(float, month)), 2))
+
+predictions(get_division_data('30', '05'))
+
+
 @app.route('/')
 def return_data():
-	data = get_division_data(request.args.get('state'), request.args.get('division'))
+	data = get_division_data(statemap[request.args.get('state')], request.args.get('division'))
 	return jsonify(maxtmp= data[0], mintmp= data[1], avgtmp= data[2])
 
