@@ -82,7 +82,7 @@ def get_division_data(state, division):
 
 	listmap = {'maxtmp': maxtmpdata[:-1], 'mintmp': mintmpdata[:-1], 'avgtmp': avgtempdata[:-1]}
 	for tmptype, typearray in {'maxtmp': maxtmpmonth, 'mintmp': mintmpmonth, 'avgtmp': avgtmpmonth}.items():	
-		for i in range(1, 11):
+		for i in range(1, 13):
 			typearray.append([listmap[tmptype][x][i] for x in range(len(listmap[tmptype]))])
 
 	return avgtmpmonth, maxtmpmonth, mintmpmonth
@@ -96,11 +96,11 @@ def predictions(data):
 
 
 	for month in avgtmp:
+		#print('month')
 		c = np.polyfit([x for x in range(124)], list(map(float, month)), 2)
 		predictavg.append([c[0]*x**2 + c[1]*x + c[2] for x in range(124, 173)])
 
 	return predictavg
-
 
 @app.route('/')
 def return_data():
