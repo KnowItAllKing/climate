@@ -96,12 +96,10 @@ def predictions(data):
 
 
 	for month in avgtmp:
-		c = np.polyfit([x for x in range(94)], list(map(float, month)), 2)
-		predictavg.append([c[0]*x**2 + c[1]*x + c[2] for x in range(94, 154)])
+		c = np.polyfit([x for x in range(len(month))], list(map(float, month)), 2)
+		predictavg.append([c[0]*x**2 + c[1]*x + c[2] for x in range(len(month), len(month)+50)])
 
 	return predictavg
-
-predictions(get_division_data('50', '03'))
 
 @app.route('/')
 def return_data():
