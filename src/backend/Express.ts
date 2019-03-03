@@ -2,7 +2,6 @@ import express = require('express');
 import hbs = require('express-handlebars');
 import bodyParser = require('body-parser');
 import path = require('path');
-import morgan = require('morgan');
 import flash = require('connect-flash');
 import cookieParser = require('cookie-parser');
 const indexRouter = require('./routes/Index');
@@ -28,7 +27,6 @@ export class WebServer {
     this.app.use(flash());
     this.app.use(bodyParser.json());
     this.app.use(cookieParser());
-    this.app.use(morgan('dev'));
     this.app.use('/', indexRouter);
     this.app.use('/search', searchRouter);
     this.server = this.app.listen(this.port, () => console.log(`Listening on port ${this.port}...`));
