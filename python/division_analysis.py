@@ -101,8 +101,6 @@ def predictions(data):
 
 	return predictavg
 
-predictions(get_division_data('30', '05'))
-
 
 @app.route('/')
 def return_data():
