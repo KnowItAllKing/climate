@@ -22,11 +22,9 @@
   </script>
   <script>
     function doacoolthing(elem) {
-      console.log(0);
       return doafunc("{{data}}" ? JSON.parse("{{data}}".replace(/\&quot;/g, '"')) : false, elem); 
     }
     function doanothercoolthing(elem) {
-      console.log(1);
       return doafunc("{{prediction}}" ? JSON.parse("{{prediction}}".replace(/\&quot;/g, '"')) : false, elem); 
     }
   </script>
